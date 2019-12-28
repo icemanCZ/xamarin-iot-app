@@ -10,6 +10,8 @@
         <Grid>
             <oxy:PlotView Model="{Binding ChartModel}"/>
             <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            <Button Text="+" Command="{Binding IncreaseIntervalCommand}" HeightRequest="50" WidthRequest="50"  CornerRadius="25" HorizontalOptions="Start" VerticalOptions="Start" Margin="50, 10, 0, 0" />
+            <Button Text="&#8635;" Command="{Binding LoadDataCommand}" HeightRequest="50" WidthRequest="50"  CornerRadius="25" HorizontalOptions="Start" VerticalOptions="Start" Margin="110, 10, 0, 0" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

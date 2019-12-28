@@ -16,6 +16,7 @@ namespace xamarin_iot_app.ViewModels
     {
         private APIService apiService = DependencyService.Get<APIService>();
         private PlotModel chartModel;
+        private int intervalHours = 6;
 
         public PlotModel ChartModel
         {
@@ -23,10 +24,21 @@ namespace xamarin_iot_app.ViewModels
             set { SetProperty(ref chartModel, value); }
         }
         public Command LoadDataCommand { get; set; }
+        public Command IncreaseIntervalCommand { get; set; }
 
         public FavoritesOverviewPageViewModel()
         {
             LoadDataCommand = new Command(async () => await ExecuteLoadDataCommand());
+            IncreaseIntervalCommand = new Command(async () => await ExecuteIncreaseIntervalCommand());
+        }
+
+        private async Task ExecuteIncreaseIntervalCommand()
+        {
+            if (IsBusy)
+                return;
+
+            intervalHours += 6;
+            await ExecuteLoadDataCommand();
         }
 
         protected override void InitializeInternal()
@@ -43,7 +55,7 @@ namespace xamarin_iot_app.ViewModels
 
             try
             {
-                var data = await apiService.FavoritedSensorsDataAsync();
+                var data = await apiService.FavoritedSensorsDataAsync(intervalHours);
                 if (data != null)
                 {
                     var cm = new PlotModel();

@@ -19,6 +19,7 @@ namespace xamarin_iot_app.ViewModels
         private APIService apiService = DependencyService.Get<APIService>();
         private PlotModel chartModel;
         private string header;
+        private int intervalHours = 6;
 
         public Sensor Sensor { get; set; }
         public PlotModel ChartModel
@@ -27,6 +28,7 @@ namespace xamarin_iot_app.ViewModels
             set { SetProperty(ref chartModel, value); }
         }
         public Command LoadDataCommand { get; set; }
+        public Command IncreaseIntervalCommand { get; set; }
         public string Header
         {
             get { return header; }
@@ -38,11 +40,21 @@ namespace xamarin_iot_app.ViewModels
             Sensor = sensor ?? throw new ArgumentNullException(nameof(sensor));
             Header = Sensor.Name;
             LoadDataCommand = new Command(async () => await ExecuteLoadDataCommand());
+            IncreaseIntervalCommand = new Command(async () => await ExecuteIncreaseIntervalCommand());
         }
 
         protected override void InitializeInternal()
         {
             LoadDataCommand.Execute(null);
+        }
+
+        private async Task ExecuteIncreaseIntervalCommand()
+        {
+            if (IsBusy)
+                return;
+
+            intervalHours += 6;
+            await ExecuteLoadDataCommand();
         }
 
         private async Task ExecuteLoadDataCommand()
@@ -54,7 +66,7 @@ namespace xamarin_iot_app.ViewModels
 
             try
             {
-                Sensor.Values = await apiService.SensorDataAsync(Sensor.Id);
+                Sensor.Values = await apiService.SensorDataAsync(Sensor.Id, intervalHours);
                 if (Sensor.Values != null)
                 {
                     var cm = new PlotModel();
@@ -66,7 +78,7 @@ namespace xamarin_iot_app.ViewModels
                     series.Points.AddRange(Sensor.Values.Select(x => new DataPoint(DateTimeAxis.ToDouble(x.Timestamp), x.Value)));
                     cm.Series.Add(series);
                     ChartModel = cm;
-                    Header = $"{Sensor.Name} - {(Sensor.Values.LastOrDefault()?.Value.ToString() ?? "?")}{Sensor.Units}";
+                    Header = $"{Sensor.Name} {(Sensor.Values.LastOrDefault()?.Value.ToString() ?? "?")}{Sensor.Units}";
                 }
                 else
                 {
