@@ -8,4 +8,5 @@
              x:Class="xamarin_iot_app.Views.MainPage">
     <local:FavoritesOverviewPage Title="Overview" />
     <local:SensorsPage Title="Sensors" />
+    <local:GroupsPage Title="Groups" />
 </TabbedPage>

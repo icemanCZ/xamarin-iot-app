@@ -3,15 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:oxy="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
+             xmlns:controls="clr-namespace:xamarin_iot_app.Views.Controls"
              mc:Ignorable="d"
              x:Class="xamarin_iot_app.Views.FavoritesOverviewPage">
     <ContentPage.Content>
         <Grid>
-            <oxy:PlotView Model="{Binding ChartModel}"/>
+            <controls:ChartView />
             <ActivityIndicator IsRunning="{Binding IsBusy}" />
-            <Button Text="+" Command="{Binding IncreaseIntervalCommand}" HeightRequest="50" WidthRequest="50"  CornerRadius="25" HorizontalOptions="Start" VerticalOptions="Start" Margin="50, 10, 0, 0" />
-            <Button Text="&#8635;" Command="{Binding LoadDataCommand}" HeightRequest="50" WidthRequest="50"  CornerRadius="25" HorizontalOptions="Start" VerticalOptions="Start" Margin="110, 10, 0, 0" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

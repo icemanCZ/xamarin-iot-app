@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:xamarin_iot_app.Views.Controls"
              mc:Ignorable="d"
-             x:Class="xamarin_iot_app.Views.GroupDetailPage">
+             x:Class="xamarin_iot_app.Views.SensorDetailPage">
     <ContentPage.Content>
         <Grid>
             <Grid>
