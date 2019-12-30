@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using System.Linq;
+using System;
 using xamarin_iot_app.Models;
 using xamarin_iot_app.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace xamarin_iot_app.Views
 {
@@ -34,7 +30,7 @@ namespace xamarin_iot_app.Views
             (BindingContext as BaseViewModel).Initialize();
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
                 return;

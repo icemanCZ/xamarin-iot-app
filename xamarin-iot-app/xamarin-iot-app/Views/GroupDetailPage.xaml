@@ -14,10 +14,10 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label Text="{Binding Header}"
-                HorizontalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand"
                    Grid.Row="0" />
 
-                <controls:ChartView Grid.Row="1"/>
+                <controls:ChartView Grid.Row="1" />
             </Grid>
             <ActivityIndicator IsRunning="{Binding IsBusy}" />
         </Grid>

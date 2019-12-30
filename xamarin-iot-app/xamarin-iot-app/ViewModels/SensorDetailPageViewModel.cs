@@ -1,29 +1,33 @@
-﻿using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
-using System;
+﻿using xamarin_iot_app.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
-using xamarin_iot_app.Models;
-using xamarin_iot_app.Services;
 
 namespace xamarin_iot_app.ViewModels
 {
-    class SensorDetailPageViewModel : ChartPageViewModel
+    internal class SensorDetailPageViewModel : ChartPageViewModel
     {
+        #region Fields
+
         private string header;
 
-        public Sensor Sensor { get; set; }
+        #endregion
+
+        #region Properties
+
         public string Header
         {
             get { return header; }
             set { SetProperty(ref header, value); }
         }
+
+        public Sensor Sensor { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public SensorDetailPageViewModel(Sensor sensor)
         {
@@ -31,10 +35,16 @@ namespace xamarin_iot_app.ViewModels
             Header = Sensor.Name;
         }
 
+        #endregion
+
+        #region Methods
+
         protected override async Task<IEnumerable<Sensor>> GetDataAsync()
         {
             Sensor.Values = await apiService.SensorDataAsync(Sensor.Id, intervalHours);
             return new[] { Sensor };
         }
+
+        #endregion
     }
 }

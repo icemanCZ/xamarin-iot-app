@@ -1,34 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-using Xamarin.Forms;
-
-using xamarin_iot_app.Models;
-using xamarin_iot_app.Services;
 
 namespace xamarin_iot_app.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        bool isInitialized = false;
+        #region Events
 
-        bool isBusy = false;
+        public event MsgEventHandler OnError;
+
+        #endregion
+
+        #region Fields
+
+        private bool isBusy = false;
+        private bool isInitialized = false;
+        private string title = string.Empty;
+
+        #endregion
+
+        #region Properties
+
         public bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
 
-        string title = string.Empty;
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
 
-        public event MsgEventHandler OnError;
+        #endregion
+
+        #region Methods
+
+        public void Initialize()
+        {
+            if (!isInitialized)
+            {
+                InitializeInternal();
+                isInitialized = true;
+            }
+        }
+
+        protected abstract void InitializeInternal();
 
         protected void RaiseError(string error)
         {
@@ -48,19 +68,12 @@ namespace xamarin_iot_app.ViewModels
             return true;
         }
 
-        public void Initialize()
-        {
-            if (!isInitialized)
-            {
-                InitializeInternal();
-                isInitialized = true;
-            }
-        }
-
-        protected abstract void InitializeInternal();
+        #endregion
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             var changed = PropertyChanged;
@@ -69,6 +82,7 @@ namespace xamarin_iot_app.ViewModels
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }

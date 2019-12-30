@@ -1,31 +1,42 @@
-﻿using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+using System;
 using xamarin_iot_app.Models;
 using xamarin_iot_app.Services;
+using OxyPlot;
+using Xamarin.Forms;
+using System.Threading.Tasks;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using System.Diagnostics;
 
 namespace xamarin_iot_app.ViewModels
 {
     public abstract class ChartPageViewModel : BaseViewModel
     {
+        #region Fields
+
         protected APIService apiService = DependencyService.Get<APIService>();
-        private PlotModel chartModel;
         protected int intervalHours = 6;
+        private PlotModel chartModel;
+
+        #endregion
+
+        #region Properties
 
         public PlotModel ChartModel
         {
             get { return chartModel; }
             set { SetProperty(ref chartModel, value); }
         }
-        public Command LoadDataCommand { get; set; }
+
         public Command IncreaseIntervalCommand { get; set; }
+        public Command LoadDataCommand { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public ChartPageViewModel()
         {
@@ -33,7 +44,16 @@ namespace xamarin_iot_app.ViewModels
             IncreaseIntervalCommand = new Command(async () => await ExecuteIncreaseIntervalCommand());
         }
 
+        #endregion
+
+        #region Methods
+
         protected abstract Task<IEnumerable<Sensor>> GetDataAsync();
+
+        protected override void InitializeInternal()
+        {
+            LoadDataCommand.Execute(null);
+        }
 
         private async Task ExecuteIncreaseIntervalCommand()
         {
@@ -42,11 +62,6 @@ namespace xamarin_iot_app.ViewModels
 
             intervalHours += 6;
             await ExecuteLoadDataCommand();
-        }
-
-        protected override void InitializeInternal()
-        {
-            LoadDataCommand.Execute(null);
         }
 
         private async Task ExecuteLoadDataCommand()
@@ -67,7 +82,6 @@ namespace xamarin_iot_app.ViewModels
                     cm.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Dot, MajorGridlineColor = OxyColors.LightGray });
                     foreach (var s in data)
                     {
-
                         var series = new LineSeries { Title = $"{s.Name} {s.Values.LastOrDefault()?.Value} {s.Units}", MarkerType = MarkerType.None };
                         series.Points.AddRange(s.Values.Select(x => new DataPoint(DateTimeAxis.ToDouble(x.Timestamp), x.Value)));
                         cm.Series.Add(series);
@@ -78,7 +92,6 @@ namespace xamarin_iot_app.ViewModels
                 {
                     RaiseError("Failed loading data");
                 }
-
             }
             catch (Exception ex)
             {
@@ -89,5 +102,7 @@ namespace xamarin_iot_app.ViewModels
                 IsBusy = false;
             }
         }
+
+        #endregion
     }
 }

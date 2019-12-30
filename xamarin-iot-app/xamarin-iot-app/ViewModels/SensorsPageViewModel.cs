@@ -1,21 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+using System;
 using xamarin_iot_app.Models;
 using xamarin_iot_app.Services;
+using Xamarin.Forms;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace xamarin_iot_app.ViewModels
 {
-    class SensorsPageViewModel : BaseViewModel
+    internal class SensorsPageViewModel : BaseViewModel
     {
+        #region Fields
+
         private APIService apiService = DependencyService.Get<APIService>();
 
-        public ObservableCollection<Sensor> Sensors { get; set; } = new ObservableCollection<Sensor>();
+        #endregion
+
+        #region Properties
+
         public Command LoadDataCommand { get; set; }
+        public ObservableCollection<Sensor> Sensors { get; set; } = new ObservableCollection<Sensor>();
+
+        #endregion
+
+        #region Constructors
 
         public SensorsPageViewModel()
         {
@@ -29,6 +39,10 @@ namespace xamarin_iot_app.ViewModels
             //    await DataStore.AddItemAsync(newItem);
             //});
         }
+
+        #endregion
+
+        #region Methods
 
         protected override void InitializeInternal()
         {
@@ -65,5 +79,7 @@ namespace xamarin_iot_app.ViewModels
                 IsBusy = false;
             }
         }
+
+        #endregion
     }
 }

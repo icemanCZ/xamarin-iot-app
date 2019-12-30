@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
+using System;
+using xamarin_iot_app.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using xamarin_iot_app.ViewModels;
 
 namespace xamarin_iot_app.Views
 {

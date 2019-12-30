@@ -1,6 +1,5 @@
 ﻿using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using xamarin_iot_app.Services;
 using xamarin_iot_app.Views;
 
@@ -8,7 +7,6 @@ namespace xamarin_iot_app
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();

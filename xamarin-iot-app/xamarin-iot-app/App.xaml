@@ -6,10 +6,15 @@
              mc:Ignorable="d"
              x:Class="xamarin_iot_app.App">
 
-    <Application.Resources>
-        <Style TargetType="ActivityIndicator">
-            <Setter Property="Color" Value="#10B0FF" />
-        </Style>
-    </Application.Resources>
-    
+  <Application.Resources>
+    <Style TargetType="ActivityIndicator">
+      <Setter Property="Color" Value="#212121" />
+
+      <Style.Triggers>
+        <Trigger TargetType="ActivityIndicator" Property="IsRunning" Value="true">
+          <Setter Property="BackgroundColor" Value="#60000000" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </Application.Resources>
 </Application>

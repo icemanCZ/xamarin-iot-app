@@ -2,12 +2,8 @@
 
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-
-using xamarin_iot_app;
+using Android.Runtime;
 
 namespace xamarin_iot_app.Droid
 {
@@ -26,6 +22,7 @@ namespace xamarin_iot_app.Droid
             OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
             LoadApplication(new App());
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
