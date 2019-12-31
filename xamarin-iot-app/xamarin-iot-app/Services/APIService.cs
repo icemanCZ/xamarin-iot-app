@@ -37,12 +37,14 @@ namespace xamarin_iot_app.Services
                         new Uri(API_URL_FAVORITED_SENSORS_DATA
                         .Replace("{FROM}", DateTime.Now.AddHours(-intervalHours).ToFileTimeUtc().ToString())));
                     var data = JsonConvert.DeserializeObject<List<dynamic>>(json);
+
                     return data.Select(x =>
                         new Sensor()
                         {
                             Id = x.id,
                             Name = x.name,
                             Units = x.units,
+                            IsOk = x.isOk,
                             Values = (x.data as JContainer).OfType<dynamic>().Select(d => new SensorValue() { Timestamp = d.t, Value = d.v })
                         });
                 }
@@ -62,7 +64,13 @@ namespace xamarin_iot_app.Services
                 {
                     var json = await wc.DownloadStringTaskAsync(new Uri(API_URL_GROUP_LIST));
                     var data = JsonConvert.DeserializeObject<List<dynamic>>(json);
-                    return data.Select(x => new SensorGroup() { Id = x.id, Name = x.name });
+
+                    return data.Select(x =>
+                    new SensorGroup()
+                    {
+                        Id = x.id,
+                        Name = x.name
+                    });
                 }
             }
             catch (Exception ex)
@@ -83,12 +91,14 @@ namespace xamarin_iot_app.Services
                         .Replace("{ID}", groupId.ToString())
                         .Replace("{FROM}", DateTime.Now.AddHours(-intervalHours).ToFileTimeUtc().ToString())));
                     var data = JsonConvert.DeserializeObject<List<dynamic>>(json);
+
                     return data.Select(x =>
                         new Sensor()
                         {
                             Id = x.id,
                             Name = x.name,
                             Units = x.units,
+                            IsOk = x.isOk,
                             Values = (x.data as JContainer).OfType<dynamic>().Select(d => new SensorValue() { Timestamp = d.t, Value = d.v })
                         });
                 }
@@ -111,7 +121,13 @@ namespace xamarin_iot_app.Services
                             .Replace("{ID}", id.ToString())
                             .Replace("{FROM}", DateTime.Now.AddHours(-intervalHours).ToFileTimeUtc().ToString())));
                     var data = JsonConvert.DeserializeObject<List<dynamic>>(json);
-                    return data.Select(x => new SensorValue() { Timestamp = x.t, Value = x.v });
+
+                    return data.Select(x =>
+                        new SensorValue()
+                        {
+                            Timestamp = x.t,
+                            Value = x.v
+                        });
                 }
             }
             catch (Exception ex)
@@ -129,7 +145,16 @@ namespace xamarin_iot_app.Services
                 {
                     var json = await wc.DownloadStringTaskAsync(new Uri(API_URL_SENSOR_LIST));
                     var data = JsonConvert.DeserializeObject<List<dynamic>>(json);
-                    return data.OrderByDescending(x => x.isFavorited).Select(x => new Sensor() { Id = x.id, Name = x.name, Units = x.units });
+
+                    return data.OrderByDescending(x => x.isFavorited)
+                        .Select(x =>
+                        new Sensor()
+                        {
+                            Id = x.id,
+                            Name = x.name,
+                            Units = x.units,
+                            IsOk = x.isOk
+                        });
                 }
             }
             catch (Exception ex)

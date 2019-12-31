@@ -78,19 +78,21 @@ namespace xamarin_iot_app.ViewModels
                 {
                     var cm = new PlotModel();
                     cm.PlotAreaBorderColor = OxyColors.LightGray;
-                    cm.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, StringFormat = "HH:mm", MajorGridlineStyle = LineStyle.Dot, MajorGridlineColor = OxyColors.LightGray });
-                    cm.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Dot, MajorGridlineColor = OxyColors.LightGray });
+                    cm.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, StringFormat = "HH:mm", MajorGridlineStyle = LineStyle.Dot, MajorGridlineColor = OxyColors.LightGray, MinorGridlineStyle = LineStyle.Dot, MinorGridlineColor = OxyColor.Parse("#EAEAEA") });
+                    cm.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Dot, MajorGridlineColor = OxyColors.LightGray, MinorGridlineStyle = LineStyle.Dot, MinorGridlineColor = OxyColor.Parse("#EAEAEA") });
                     foreach (var s in data)
                     {
                         var series = new LineSeries { Title = $"{s.Name} {s.Values.LastOrDefault()?.Value} {s.Units}", MarkerType = MarkerType.None };
                         series.Points.AddRange(s.Values.Select(x => new DataPoint(DateTimeAxis.ToDouble(x.Timestamp), x.Value)));
+                        series.TrackerFormatString = "{2}";
+
                         cm.Series.Add(series);
                     }
                     ChartModel = cm;
                 }
                 else
                 {
-                    RaiseError("Failed loading data");
+                    RaiseError("Failed loading data. No internet access?");
                 }
             }
             catch (Exception ex)

@@ -67,7 +67,7 @@ namespace xamarin_iot_app.ViewModels
                 }
                 else
                 {
-                    RaiseError("Failed loading data");
+                    RaiseError("Failed loading data. No internet access?");
                 }
             }
             catch (Exception ex)

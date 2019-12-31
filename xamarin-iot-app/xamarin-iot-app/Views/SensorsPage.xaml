@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:xamarin_iot_app.Views.Controls"
              mc:Ignorable="d"
              x:Class="xamarin_iot_app.Views.SensorsPage">
     <Grid>
@@ -13,7 +14,22 @@
             CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" TextColor="Black" />
+                    <ViewCell>
+                        <Grid>
+                            <Label Text="{Binding Name}" TextColor="Black" VerticalOptions="Center" Margin="20,0,0,0" />
+                            <controls:RoundedBox HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,20,0" BackgroundColor="Green" HeightRequest="10" WidthRequest="10">
+                                <controls:RoundedBox.Style>
+                                    <Style TargetType="controls:RoundedBox">
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="controls:RoundedBox" Binding="{Binding IsOk}" Value="false">
+                                                <Setter Property="BackgroundColor" Value="Red" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </controls:RoundedBox.Style>
+                            </controls:RoundedBox>
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
